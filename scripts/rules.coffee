@@ -23,6 +23,20 @@ module.exports = (robot) ->
   robot.hear /sex/i, (res) ->
      res.send "A fuuuuu!!!"
 
+  czesc_powitania = ['Witaj!', 'Hej!', 'Czolem!', 'Siema!']
+
+  robot.hear /jest ktos/i, (res) ->
+     res.send "Ja jestem :D"
+
+  robot.hear /siema/i, (res) ->
+     res.send res.random czesc_powitania
+
+  robot.hear /dzin dybry/i, (res) ->
+     res.send res.random czesc_powitania
+
+  robot.hear /dzien dobry/i, (res) ->
+     res.send res.random czesc_powitania
+
   robot.hear /(.*) dola/i, (res) ->
        res.emote "serio?!"
 
@@ -40,13 +54,18 @@ module.exports = (robot) ->
   robot.topic (res) ->
      res.send "#{res.message.text}? Fajny topic"
 
-  powitania = ['Witaj!', 'Czolem!', 'Witamy na kanale!']
-  pozegnania = ['Zegnaj', 'Czesc, dozo...', 'Do zobaczenia...']
+  powitania = ['Witaj!', 'Hej!', 'Czolem!', 'Witamy na kanale!']
+  pozegnania = ['Zegnaj', 'Czesc, dozo...', 'Do zobaczenia...', 'Nie odchodz!']
 
   robot.enter (res) ->
      res.reply res.random powitania
   robot.leave (res) ->
      res.reply res.random pozegnania
+
+  pocieszenia = ['Nie boj zaby, bedzie dobrze', 'No juz, usmiechnij sie!', 'Wszystko bedzie spoko', 'Nie lam sie!']
+
+  robot.respond /pociesz mnie/i, (res) ->
+     res.send res.random pocieszenia
 
   robot.respond /jestes troche wolny/, (res) ->
      setTimeout () ->
@@ -58,15 +77,15 @@ module.exports = (robot) ->
      if res?
       res.reply "DOES NOT COMPUTE"
 
-  robot.respond /piwo/i, (res) ->
+  robot.respond /(.*) piwo/i, (res) ->
      # Get number of sodas had (coerced to a number).
      sodasHad = robot.brain.get('totalSodas') * 1 or 0
 
-     if sodasHad > 4
+     if sodasHad > 3
        res.reply "Jestem zbyt pijany.."
 
      else
-       res.reply 'Pewnie!'
+       res.reply 'Pewnie, dzieki!'
        robot.brain.set 'totalSodas', sodasHad+1
   #
   robot.respond /odespij/i, (res) ->
